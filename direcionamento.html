@@ -1,0 +1,293 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Direcionamento de Carreira</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600&family=Montserrat:wght@500;600;700&display=swap">
+<style>
+/* Layout: uma pergunta por tela, como uma prancha técnica — moldura com marcas de cota, progresso em régua graduada */
+:root{
+  --navy:#081623; --navy-2:#0e2133; --line:#1f3549;
+  --gold:#be8037; --gold-hi:#d9a463; --cream:#fbfafb; --muted:#9fb0c0; --err:#e57a6a;
+  --f-title:"Georgia Pro",Georgia,"Times New Roman",serif;
+  --f-sub:"Montserrat","Segoe UI",Arial,sans-serif;
+  --f-body:"DM Sans","Segoe UI",Arial,sans-serif;
+  color-scheme:dark;
+}
+*{box-sizing:border-box}
+html,body{height:100%}
+body{background:var(--navy);color:var(--cream);font-family:var(--f-body);font-size:16px;line-height:1.55;
+  padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));
+  background-image:linear-gradient(var(--navy-2) 1px,transparent 1px),linear-gradient(90deg,var(--navy-2) 1px,transparent 1px);
+  background-size:32px 32px;background-position:center top}
+.wrap{max-width:640px;margin:0 auto;padding-block:28px 40px;min-height:100%;display:flex;flex-direction:column;gap:22px}
+
+/* topo */
+.top{display:flex;align-items:center;justify-content:space-between;gap:12px;min-height:32px}
+.brand{font-family:var(--f-sub);font-weight:600;font-size:12px;letter-spacing:.18em;text-transform:uppercase;color:var(--gold)}
+.count{font-family:var(--f-sub);font-size:12px;letter-spacing:.08em;color:var(--muted);font-variant-numeric:tabular-nums}
+.ruler{position:relative;height:14px}
+.ruler .ticks{position:absolute;inset:0;background:
+  repeating-linear-gradient(90deg,var(--line) 0 1px,transparent 1px calc(100%/12));border-bottom:1px solid var(--line)}
+.ruler .fill{position:absolute;left:0;bottom:-1px;height:3px;width:0;background:linear-gradient(90deg,var(--gold),var(--gold-hi));transition:width .45s ease}
+
+/* prancha */
+.sheet{position:relative;background:rgba(8,22,35,.92);border:1px solid var(--line);padding:32px 24px 28px;flex:1;display:flex;flex-direction:column}
+.sheet::before,.sheet::after{content:"";position:absolute;width:18px;height:18px;border-color:var(--gold);border-style:solid}
+.sheet::before{top:-1px;left:-1px;border-width:2px 0 0 2px}
+.sheet::after{bottom:-1px;right:-1px;border-width:0 2px 2px 0}
+.step{display:flex;flex-direction:column;gap:18px;animation:in .4s ease both}
+@keyframes in{from{opacity:.001;transform:translateY(10px)}to{opacity:1;transform:none}}
+@media (prefers-reduced-motion:reduce){.step{animation:none}.ruler .fill{transition:none}}
+
+/* intro */
+.logo{width:64px;height:auto;max-width:100%;align-self:center;display:block;opacity:.95}
+h1{font-family:var(--f-title);font-weight:400;font-size:clamp(28px,6vw,38px);line-height:1.15;margin:0;text-align:center;text-wrap:balance}
+h1 em{font-style:italic;color:var(--gold-hi)}
+.lead{color:#d6dee6;margin:0;text-align:center;max-width:52ch;align-self:center}
+.facts{display:flex;flex-wrap:wrap;justify-content:center;gap:8px 18px;font-family:var(--f-sub);font-size:12px;letter-spacing:.06em;text-transform:uppercase;color:var(--muted)}
+.facts span::before{content:"";display:inline-block;width:6px;height:6px;background:var(--gold);margin-right:8px;transform:rotate(45deg) translateY(-2px)}
+.note{border-left:2px solid var(--gold);padding:10px 14px;background:rgba(190,128,55,.08);font-size:14px;color:#d6dee6}
+.note b{color:var(--cream);font-weight:600}
+
+/* pergunta */
+.qnum{font-family:var(--f-sub);font-weight:600;font-size:12px;letter-spacing:.16em;color:var(--gold);text-transform:uppercase}
+.q{font-family:var(--f-title);font-weight:400;font-size:clamp(23px,5vw,30px);line-height:1.22;margin:0;text-wrap:balance}
+.hint{color:var(--muted);font-size:14px;margin:-6px 0 0}
+input[type=text],input[type=tel],textarea{width:100%;background:transparent;border:0;border-bottom:1.5px solid var(--line);
+  color:var(--cream);font:500 19px/1.4 var(--f-body);padding:10px 2px;outline:none;transition:border-color .2s;border-radius:0}
+textarea{min-height:120px;resize:vertical;border:1.5px solid var(--line);padding:12px 14px;font-size:17px}
+input::placeholder,textarea::placeholder{color:#5b7084}
+input:focus,textarea:focus{border-color:var(--gold)}
+.opts{display:flex;flex-direction:column;gap:10px;margin:0;padding:0;border:0}
+.opt{position:relative;display:flex;align-items:center;gap:14px;padding:14px 16px;border:1px solid var(--line);background:rgba(14,33,51,.6);
+  cursor:pointer;transition:border-color .15s,background .15s;font-size:16px}
+.opt:hover{border-color:#3a5670}
+.opt input{position:absolute;opacity:0;pointer-events:none}
+.key{flex:none;width:26px;height:26px;display:grid;place-items:center;border:1px solid #3a5670;font:600 12px var(--f-sub);color:var(--muted)}
+.opt:has(input:checked){border-color:var(--gold);background:rgba(190,128,55,.12)}
+.opt:has(input:checked) .key{background:var(--gold);border-color:var(--gold);color:var(--navy)}
+.opt:has(input:focus-visible){outline:2px solid var(--gold-hi);outline-offset:2px}
+.other{margin-top:4px}
+.err{color:var(--err);font-size:14px;min-height:1.3em;margin:0}
+
+/* ações */
+.actions{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-top:auto;padding-top:26px}
+.btn{font:700 14px var(--f-sub);letter-spacing:.1em;text-transform:uppercase;border:0;cursor:pointer;padding:15px 24px;
+  background:linear-gradient(135deg,var(--gold),var(--gold-hi));color:var(--navy);display:inline-flex;align-items:center;gap:10px;transition:filter .15s,transform .15s}
+.btn:hover{filter:brightness(1.08)}.btn:active{transform:translateY(1px)}
+.btn:disabled{opacity:.6;cursor:wait}
+.btn:focus-visible,.ghost:focus-visible{outline:2px solid var(--cream);outline-offset:3px}
+.ghost{background:none;border:0;color:var(--muted);font:600 13px var(--f-sub);letter-spacing:.08em;text-transform:uppercase;cursor:pointer;padding:12px 4px}
+.ghost:hover{color:var(--cream)}
+.enter{font-size:12px;color:#5b7084;display:none}
+@media (min-width:700px){.enter{display:inline}.sheet{padding:44px 44px 36px}}
+.btn.wide{width:100%;justify-content:center}
+
+/* final */
+.done{text-align:center;align-items:center}
+.seal{width:72px;height:72px;border:2px solid var(--gold);display:grid;place-items:center;transform:rotate(45deg)}
+.seal svg{transform:rotate(-45deg)}
+.foot{text-align:center;font-family:var(--f-sub);font-size:12px;letter-spacing:.12em;color:var(--muted)}
+.foot a{color:var(--gold);text-decoration:none}
+</style>
+</head>
+<body>
+
+
+<div class="wrap">
+  <div class="top">
+    <span class="brand">Método Zanella</span>
+    <span class="count" id="count"></span>
+  </div>
+  <div class="ruler" id="ruler" hidden><div class="ticks"></div><div class="fill" id="fill"></div></div>
+
+  <main class="sheet">
+    <form id="form" novalidate autocomplete="on"></form>
+  </main>
+
+  <p class="foot">Aceleração de carreira em gestão de obras e projetos · <a href="https://instagram.com/engzanella" target="_blank" rel="noopener">@engzanella</a></p>
+</div>
+
+<iframe name="gf_sink" id="gf_sink" title="envio" hidden></iframe>
+
+<script>
+/* ===== CONFIGURAÇÃO DO ENVIO =====
+   As respostas vão para o seu Google Forms (e daí para a planilha de respostas).
+   Preencha cada "entry" com o número do campo correspondente (entry.XXXXXXXXX). */
+const GOOGLE_FORM_ACTION = "https://docs.google.com/forms/d/e/1FAIpQLSeDbfDfnilP0A-fsIaIixWXqV0jbBWd7fKb3ilDCukur3I0fg/formResponse";
+
+const QUESTIONS = [
+  {id:"nome", entry:"", type:"text", q:"Qual é o seu nome completo?", hint:"Nome e sobrenome", ph:"Ex.: Rafael Andrade", auto:"name"},
+  {id:"insta", entry:"", type:"text", q:"Qual é o seu @ do Instagram?", ph:"@seuperfil", auto:"off"},
+  {id:"whats", entry:"", type:"tel", q:"Qual é o seu número de WhatsApp?", hint:"É por aqui que eu vou entrar em contato.", ph:"(38) 99999-9999", auto:"tel"},
+  {id:"idade", entry:"", type:"radio", q:"Qual é a sua idade?",
+    opts:["18 a 24 anos","25 a 30 anos","31 a 35 anos","36 a 45 anos","46 a 55 anos","Acima de 56 anos"]},
+  {id:"formacao", entry:"", type:"radio", q:"Qual é a sua formação ou área de atuação?", other:true,
+    opts:["Estudante de Engenharia ou curso técnico","Engenheiro(a) recém-formado(a) (até 3 anos de formado)","Técnico(a) em obras ou projetos industriais","Profissional de outra área querendo migrar para gestão/planejamento de obras"]},
+  {id:"situacao", entry:"", type:"radio", q:"Qual é a sua situação profissional atual?", other:true,
+    opts:["Ainda estou cursando — ainda não trabalho na área","Já trabalho na área, mas em posição operacional / técnica","Trabalho em obras ou projetos, mas sem cargo de gestão","Estou desempregado(a) e quero entrar ou voltar para o mercado"]},
+  {id:"renda", entry:"", type:"radio", q:"Qual é a sua faixa de renda atual?", hint:"Somando todas as fontes.",
+    opts:["Sem renda no momento","Até R$ 3.000/mês","R$ 3.000 a R$ 5.000/mês","R$ 5.000 a R$ 8.000/mês","R$ 8.000 a R$ 12.000/mês","Acima de R$ 12.000/mês"]},
+  {id:"fase", entry:"", type:"radio", q:"Em qual fase você está atualmente na sua carreira em obras e projetos?",
+    opts:["Estou começando do zero — ainda não tenho experiência prática","Já trabalho na área, mas sinto que não estou evoluindo como deveria","Tenho experiência técnica, mas travo na hora de assumir responsabilidades ou cargos de gestão","Quero migrar de área e entrar no mercado de obras e projetos"]},
+  {id:"desafio", entry:"", type:"textarea", q:"Qual é o maior desafio que você enfrenta hoje para crescer na carreira?",
+    hint:"Seja honesto(a). Isso me ajuda a entender como posso te ajudar de verdade.", ph:"Escreva com as suas palavras…"},
+  {id:"meta", entry:"", type:"textarea", q:"O que você espera conquistar nos próximos 6 meses com o suporte certo?",
+    hint:"Descreva a sua situação ideal.", ph:"Daqui a 6 meses, eu quero…"},
+  {id:"invest", entry:"", type:"radio", q:"Você já investiu em algum curso, mentoria ou treinamento voltado para gestão de obras ou projetos?",
+    opts:["Não, nunca investi","Sim, fiz algum curso online ou presencial","Sim, já participei de alguma mentoria","Sim, mas não tive os resultados esperados"]},
+  {id:"origem", entry:"", type:"radio", q:"Como você ficou sabendo dessa sessão?", other:true,
+    opts:["Instagram @engzanella","Indicação de um amigo ou colega"]},
+];
+
+const ENTRIES = {nome:2108053103, insta:431810081, whats:1380916986, idade:655093343, formacao:1644866175, situacao:374388888,
+  renda:500538663, fase:72196488, desafio:637812874, meta:1770212532, invest:181938876, origem:974975353};
+QUESTIONS.forEach(Q=>{ Q.entry = "entry."+ENTRIES[Q.id]; });
+
+const LOGO ="data:image/webp;base64,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";
+const form = document.getElementById("form");
+const fill = document.getElementById("fill");
+const ruler = document.getElementById("ruler");
+const count = document.getElementById("count");
+const answers = {};
+let step = -1; // -1 = abertura, QUESTIONS.length = enviado
+const N = QUESTIONS.length;
+const esc = s => s.replace(/[&<>"]/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+
+function render(){
+  ruler.hidden = step < 0 || step >= N;
+  count.textContent = step >= 0 && step < N ? String(step+1).padStart(2,"0")+" / "+N : "";
+  fill.style.width = step < 0 ? "0" : Math.min(100,(step/N)*100)+"%";
+  if(step < 0) return renderIntro();
+  if(step >= N) return renderDone();
+  const Q = QUESTIONS[step], v = answers[Q.id] || {};
+  let field = "";
+  if(Q.type==="text"||Q.type==="tel"){
+    field = `<input id="f_${Q.id}" type="${Q.type}" inputmode="${Q.type==="tel"?"tel":"text"}" autocomplete="${Q.auto}" placeholder="${esc(Q.ph)}" value="${esc(v.value||"")}">`;
+  } else if(Q.type==="textarea"){
+    field = `<textarea id="f_${Q.id}" placeholder="${esc(Q.ph)}">${esc(v.value||"")}</textarea>`;
+  } else {
+    const all = Q.other ? [...Q.opts,"Outro"] : Q.opts;
+    field = `<fieldset class="opts" aria-labelledby="ql">` + all.map((o,i)=>`
+      <label class="opt"><input type="radio" name="r_${Q.id}" value="${esc(o)}" ${v.value===o?"checked":""}>
+      <span class="key">${String.fromCharCode(65+i)}</span><span>${esc(o)}</span></label>`).join("") + `</fieldset>`;
+  }
+  const last = step===N-1;
+  form.innerHTML = `<div class="step">
+    <span class="qnum">Pergunta ${step+1}</span>
+    <h2 class="q" id="ql">${esc(Q.q)}</h2>
+    ${Q.hint?`<p class="hint">${esc(Q.hint)}</p>`:""}
+    ${field}
+    <p class="err" id="err" role="alert"></p>
+  </div>
+  <div class="actions">
+    <button type="button" class="ghost" id="back">← Voltar</button>
+    <span style="display:flex;align-items:center;gap:12px">
+      <span class="enter">${Q.type==="textarea"?"Ctrl + Enter":"Enter ↵"}</span>
+      <button type="submit" class="btn" id="next">${last?"Enviar aplicação":"Continuar"} <span aria-hidden="true">→</span></button>
+    </span>
+  </div>`;
+  document.getElementById("back").onclick = ()=>{ save(); step--; render(); };
+  if(Q.type==="radio"){
+    form.querySelectorAll(`input[name="r_${Q.id}"]`).forEach(r=>r.addEventListener("change",()=>{
+      const o = document.getElementById(`f_${Q.id}_other`);
+      if(o){ o.hidden = r.value!=="Outro"; if(!o.hidden){ o.focus(); return; } }
+      setTimeout(()=>next(), 260);
+    }));
+  }
+  const first = form.querySelector("input:not([type=radio]):not([hidden]),textarea") || form.querySelector("input[type=radio]:checked") ;
+  if(first && window.matchMedia("(min-width:700px)").matches) first.focus({preventScroll:true});
+  const ta = form.querySelector("textarea");
+  if(ta) ta.addEventListener("keydown",e=>{ if(e.key==="Enter"&&(e.ctrlKey||e.metaKey)){e.preventDefault();next();} });
+}
+
+function renderIntro(){
+  form.innerHTML = `<div class="step">
+    <img class="logo" src="${LOGO}" alt="Método Zanella" width="64" height="64">
+    <h1>Direcionamento <em>gratuito</em> de carreira</h1>
+    <p class="lead">Uma sessão gratuita e exclusiva para engenheiros, técnicos e estudantes de engenharia que querem acelerar a carreira em obras e projetos, conquistar melhores salários e assumir posições de gestão valorizadas no mercado.</p>
+    <div class="facts"><span>Menos de 2 minutos</span><span>12 perguntas</span><span>Contato por WhatsApp</span></div>
+    <div class="note"><b>Aplique apenas se for o seu caso.</b> O envio não garante a vaga: cada aplicação é avaliada individualmente. Com base nas suas respostas, eu mesmo entro em contato por WhatsApp para confirmar o agendamento.</div>
+  </div>
+  <div class="actions"><button type="submit" class="btn wide" id="next">Quero aplicar <span aria-hidden="true">→</span></button></div>`;
+}
+
+function renderDone(){
+  const nome = (answers.nome?.value||"").split(" ")[0];
+  form.innerHTML = `<div class="step done">
+    <div class="seal"><svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="#d9a463" stroke-width="2.2"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg></div>
+    <h1>Aplicação recebida${nome?`, <em>${esc(nome)}</em>`:""}.</h1>
+    <p class="lead">Vou analisar as suas respostas pessoalmente. Se o seu perfil tiver aderência, eu te chamo no WhatsApp para confirmar o dia e o horário da sessão.</p>
+    <p class="lead">Enquanto isso, acompanhe os conteúdos no Instagram.</p>
+    <a class="btn" href="https://instagram.com/engzanella" target="_blank" rel="noopener">Ver @engzanella <span aria-hidden="true">→</span></a>
+  </div>`;
+  try{ localStorage.removeItem("mz_form"); }catch(e){}
+}
+
+function save(){
+  if(step<0||step>=N) return;
+  const Q = QUESTIONS[step];
+  if(Q.type==="radio"){
+    const c = form.querySelector(`input[name="r_${Q.id}"]:checked`);
+    const o = document.getElementById(`f_${Q.id}_other`);
+    answers[Q.id] = {value:c?c.value:"", other:o?o.value.trim():""};
+  } else {
+    answers[Q.id] = {value:(document.getElementById("f_"+Q.id).value||"").trim()};
+  }
+  try{ localStorage.setItem("mz_form", JSON.stringify(answers)); }catch(e){}
+}
+
+function validate(){
+  const Q = QUESTIONS[step], a = answers[Q.id], err = document.getElementById("err");
+  let msg = "";
+  if(!a.value) msg = Q.type==="radio" ? "Escolha uma das opções para continuar." : "Preencha este campo para continuar.";
+  else if(Q.id==="nome" && a.value.split(/\s+/).length<2) msg = "Escreva nome e sobrenome.";
+  else if(Q.id==="whats" && a.value.replace(/\D/g,"").length<10) msg = "Informe o número com DDD, ex.: (38) 99999-9999.";
+  err.textContent = msg;
+  return !msg;
+}
+
+function next(){
+  if(step<0){ step=0; return render(); }
+  save();
+  if(!validate()) return;
+  if(step===N-1) return submit();
+  step++; render();
+}
+
+function submit(){
+  const btn = document.getElementById("next");
+  btn.disabled = true; btn.firstChild.textContent = "Enviando… ";
+  const f = document.createElement("form");
+  f.method="POST"; f.action=GOOGLE_FORM_ACTION; f.target="gf_sink"; f.hidden=true;
+  const add=(n,v)=>{const i=document.createElement("input");i.type="hidden";i.name=n;i.value=v;f.appendChild(i);};
+  QUESTIONS.forEach(Q=>{
+    if(!Q.entry) return;
+    const a = answers[Q.id];
+    add(Q.entry,a.value);
+  });
+  document.body.appendChild(f);
+  try{ f.submit(); }catch(e){}
+  setTimeout(()=>{ step=N; render(); }, 900);
+}
+
+form.addEventListener("submit", e=>{ e.preventDefault(); next(); });
+document.addEventListener("keydown", e=>{
+  if(step<0||step>=N) return;
+  const Q = QUESTIONS[step];
+  if(Q.type!=="radio" || e.ctrlKey || e.metaKey || e.altKey) return;
+  if(document.activeElement && document.activeElement.classList.contains("other")) return;
+  const i = e.key.toUpperCase().charCodeAt(0)-65;
+  const rs = form.querySelectorAll(`input[name="r_${Q.id}"]`);
+  if(e.key.length===1 && i>=0 && i<rs.length){ rs[i].checked=true; rs[i].dispatchEvent(new Event("change")); }
+});
+try{ Object.assign(answers, JSON.parse(localStorage.getItem("mz_form")||"{}")); }catch(e){}
+render();
+</script>
+
+</body>
+</html>
